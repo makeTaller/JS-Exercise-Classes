@@ -83,25 +83,24 @@ class Car {
 	this.milesPerGallon = milesPerGallon;
 	}
 
-drive(distance){
-	let fuelConsumed = distance/this.milesPerGallon;
+	drive(distance){
+		let fuelConsumed = distance/this.milesPerGallon;
+	
+		  if (this.tank <= fuelConsumed) {
+		    fuelConsumed = this.tank;
+		    this.tank -= fuelConsumed;
+		    this.tank = 0;
+		    this.odometer += distance - 1;
+		    return "I ran out of fuel at " + this.odometer + " miles!";
+		  } else {
+		    this.tank -= fuelConsumed;
+		    this.odometer += distance;
+		  }
+	}
 
-	  if (this.tank <= fuelConsumed) {
-	    fuelConsumed = this.tank;
-	    this.tank -= fuelConsumed;
-	    this.tank = 0;
-	    this.odometer += distance - 1;
-	    return "I ran out of fuel at " + this.odometer + " miles!";
-	  } else {
-	    this.tank -= fuelConsumed;
-	    this.odometer += distance;
-	  }
-}
-
-fill(gallons){
-	this.tank += gallons
-}
-
+	fill(gallons){
+		this.tank += gallons
+	}
 
 }
 
@@ -117,8 +116,16 @@ fill(gallons){
         + Speaking should return a phrase `Hello my name is {name}, I am from {location}`.
         + {name} and {location} of course come from the instance's own properties.
 */
-class Lambdasian {
+class Lambdasian {	
+	constructor(student){
+	this.name = student.name;
+	this.age = student.age;
+	this.location = student.location;
+	}
 
+	speak(){
+	return `Hello my name is ${this.name}, I am from ${this.location}`;
+	}
 }
 
 /*
@@ -135,7 +142,21 @@ class Lambdasian {
         + `demo` receives a `subject` string as an argument and returns the phrase 'Today we are learning about {subject}' where subject is the param passed in.
         + `grade` receives a `student` object and a `subject` string as arguments and returns '{student.name} receives a perfect score on {subject}'
 */
-class Instructor {
+class Instructor extends Lambdasian {
+	constructor(student){
+	super(student)
+	this.specialty = student.specialty;
+	this.favLanguage = student.favLanguage;
+	this.catchPhrase = student.catchPhrase;
+	}
+
+	demo(subject){
+	return `Today we are learning about ${subject}`
+	}
+
+	grade(student,subject){
+	return `${student.name} receives a perfect score on ${subject}`
+	}
 
 }
 
@@ -154,7 +175,28 @@ class Instructor {
         + `PRAssignment` a method that receives a subject as an argument and returns `student.name has submitted a PR for {subject}`
         + `sprintChallenge` similar to PRAssignment but returns `student.name has begun sprint challenge on {subject}`
 */
-class Student {
+
+class Student extends Lambdasian {
+	constructor(lamb){
+	super(lamb);
+	this.previousBackground =lamb.previousBackground;
+	this.className = lamb.className;
+	this.favSubjects = lamb.favSubjects;
+	}
+	
+	listSubjects(){
+		// console.log(this.favSubjects);
+		// ls = this.favSubjects.forEach((item)=> item)
+	return `Loving ${this.favSubjects}!`;
+	}
+
+	PRAssignment(subject){
+	return `${this.name} has submitted a PR for ${subject}`;
+	}
+
+	sprintChallenge(subject){
+	return `${this.name} has begun sprint challenge on ${subject}`;
+	}
 
 }
 
